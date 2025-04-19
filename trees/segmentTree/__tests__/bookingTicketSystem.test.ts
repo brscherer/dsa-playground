@@ -30,7 +30,7 @@ describe('BookMyShow', () => {
     expect(result).toBe(true);
   });
 
-  it.only('should handle interleaved gather and scatter operations', () => {
+  it('should handle interleaved gather and scatter operations', () => {
     const bms = new BookMyShow(5, 9);
     bms.gather(10, 1);
     bms.scatter(3, 3);
