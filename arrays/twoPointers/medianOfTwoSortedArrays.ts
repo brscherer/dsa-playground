@@ -1,34 +1,49 @@
-function findMedianSortedArrays(nums1: number[], nums2: number[]): number {
-if (nums1.length > nums2.length) [nums1, nums2] = [nums2, nums1];
+type Partition = { left: number; right: number };
 
-  const m = nums1.length, n = nums2.length;
-  let left = 0, right = m;
+function getPartitionValues(arr: number[], idx: number): Partition {
+  return {
+    left: idx > 0 ? arr[idx - 1] : Number.NEGATIVE_INFINITY,
+    right: idx < arr.length ? arr[idx] : Number.POSITIVE_INFINITY,
+  };
+}
+
+export function findMedianSortedArrays(
+  nums1: number[],
+  nums2: number[]
+): number {
+  const [smallArr, largeArr] =
+    nums1.length <= nums2.length ? [nums1, nums2] : [nums2, nums1];
+
+  const m = smallArr.length;
+  const n = largeArr.length;
+  const totalLength = m + n;
+  const halfLength = Math.floor((totalLength + 1) / 2);
+
+  let left = 0;
+  let right = m;
 
   while (left <= right) {
     const i = Math.floor((left + right) / 2);
-    const j = Math.floor((m + n + 1) / 2) - i;
+    const j = halfLength - i;
 
-    const Aleft  = (i > 0) ? nums1[i - 1] : Number.NEGATIVE_INFINITY;
-    const Aright = (i < m) ? nums1[i]     : Number.POSITIVE_INFINITY;
-    const Bleft  = (j > 0) ? nums2[j - 1] : Number.NEGATIVE_INFINITY;
-    const Bright = (j < n) ? nums2[j]     : Number.POSITIVE_INFINITY;
+    const { left: aLeft, right: aRight } = getPartitionValues(smallArr, i);
+    const { left: bLeft, right: bRight } = getPartitionValues(largeArr, j);
 
-    // Found correct partition
-    if (Aleft <= Bright && Bleft <= Aright) {
-      if ((m + n) % 2 === 1) {
-        return Math.max(Aleft, Bleft);
+    if (aLeft <= bRight && bLeft <= aRight) {
+      if (totalLength % 2 === 1) {
+        return Math.max(aLeft, bLeft);
       }
-      return (Math.max(Aleft, Bleft) + Math.min(Aright, Bright)) / 2;
+      return (Math.max(aLeft, bLeft) + Math.min(aRight, bRight)) / 2;
     }
 
-    // Move partition pointers
-    if (Aleft > Bright) {
+    if (aLeft > bRight) {
       right = i - 1;
     } else {
       left = i + 1;
     }
   }
 
-  // Fallback (should never reach here for valid input)
-  throw new Error("Input arrays are not sorted");
+  throw new Error(
+    "findMedianSortedArrays: both input arrays must be sorted in ascending order."
+  );
 }
