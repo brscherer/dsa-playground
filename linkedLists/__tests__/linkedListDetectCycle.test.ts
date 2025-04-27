@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { ListNode, hasCycle } from "../linkedListDetectCycle";
+import { hasCycle } from "../linkedListDetectCycle";
+import { ListNode } from "../model";
 
 describe("hasCycle", () => {
   it("should return false for an empty list", () => {

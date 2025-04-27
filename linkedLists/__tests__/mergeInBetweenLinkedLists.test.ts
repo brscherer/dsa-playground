@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { ListNode, mergeInBetween } from "../mergeInBetweenLinkedLists";
+import { mergeInBetween } from "../mergeInBetweenLinkedLists";
+import { ListNode } from "../model";
 
 describe("mergeInBetween", () => {
   it("should return list2 when list1 is null", () => {

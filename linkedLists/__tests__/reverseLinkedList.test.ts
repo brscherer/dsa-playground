@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { ListNode, reverseList } from "../reverseLinkedList";
+import { reverseList } from "../reverseLinkedList";
+import { ListNode } from "../model";
 
 describe("reverseList", () => {
   it("should return null when head is null", () => {
